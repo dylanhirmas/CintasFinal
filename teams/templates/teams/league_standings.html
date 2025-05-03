@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>League Standings</h2>
+
+  {% if error %}
+    <p style="color: red;">{{ error }}</p>
+  {% elif standings %}
+    <table border="1" cellpadding="8" cellspacing="0">
+      <thead>
+        <tr>
+          <th>Position</th>
+          <th>Team</th>
+          <th>Points</th>
+          <th>Wins</th>
+          <th>Draws</th>
+          <th>Losses</th>
+          <th>Goals For</th>
+          <th>Goals Against</th>
+          <th>Goal Difference</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for team in standings %}
+          <tr>
+            <td>{{ team.rank }}</td>
+            <td>{{ team.team.name }}</td>
+            <td>{{ team.points }}</td>
+            <td>{{ team.all.win }}</td>
+            <td>{{ team.all.draw }}</td>
+            <td>{{ team.all.lose }}</td>
+            <td>{{ team.all.goals.for }}</td>
+            <td>{{ team.all.goals.against }}</td>
+            <td>{{ team.goalsDiff }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Standings data not available.</p>
+  {% endif %}
+
+  <div style="margin-top: 30px;">
+    <h3>Ask AI About This League</h3>
+    <input type="text" id="ai-question" placeholder="e.g. Who’s leading the table? How many points does Arsenal have?" style="width: 100%; padding: 10px; font-size: 16px;" />
+    <div style="font-size: 14px; color: #666; margin-top: 5px;">
+      Example: "Who is top of the table?" or "Where is Napoli ranked?"
+    </div>
+    <button onclick="submitLeagueAIQuestion()" style="margin-top: 10px; padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Ask AI</button>
+    <div id="ai-response" style="display: none; background: #f9f9f9; padding: 15px; margin-top: 15px; border-radius: 5px; white-space: pre-line; font-family: monospace;"></div>
+  </div>
+
+  <p style="margin-top: 30px;"><a href="{% url 'team_detail' team_id=league_id %}">Back to Team</a></p>
+
+  <script>
+    function submitLeagueAIQuestion() {
+      const question = document.getElementById("ai-question").value;
+      const responseBox = document.getElementById("ai-response");
+      responseBox.style.display = "block";
+      responseBox.innerText = "Thinking...";
+
+      fetch("{% url 'ask_league_ai' %}", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": "{{ csrf_token }}"
+        },
+        body: JSON.stringify({
+          question: question,
+          league_id: {{ league_id }}
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        responseBox.innerText = "AI Response:\n\n" + data.response;
+      })
+      .catch(() => {
+        responseBox.innerText = "There was an error getting the AI response.";
+      });
+    }
+  </script>
+{% endblock %}

@@ -1,0 +1,239 @@
+{
+    "Real Madrid": {
+      "all_time_top_scorer": "Cristiano Ronaldo (450 goals)",
+      "trophies": {
+        "La Liga": 35,
+        "UEFA Champions League": 14,
+        "Copa del Rey": 20
+      },
+      "current_head_coach": "Carlo Ancelotti",
+      "stadium_capacity": "81,044 (Santiago Bernabéu)",
+      "nickname": "Los Blancos",
+      "famous_legends": ["Alfredo Di Stéfano", "Raúl", "Cristiano Ronaldo", "Zidane"],
+      "rival": "FC Barcelona",
+      "founded": 1902,
+      "past_managers": ["José Mourinho", "Zinedine Zidane", "Vicente del Bosque"]
+    },
+    "Barcelona": {
+      "all_time_top_scorer": "Lionel Messi (672 goals)",
+      "trophies": {
+        "La Liga": 27,
+        "UEFA Champions League": 5,
+        "Copa del Rey": 31
+      },
+      "current_head_coach": "Xavi Hernández",
+      "stadium_capacity": "99,354 (Spotify Camp Nou)",
+      "nickname": "Barça",
+      "famous_legends": ["Johan Cruyff", "Xavi", "Iniesta", "Messi"],
+      "rival": "Real Madrid",
+      "founded": 1899,
+      "past_managers": ["Pep Guardiola", "Frank Rijkaard", "Ronald Koeman"]
+    },
+    "Atletico Madrid": {
+      "all_time_top_scorer": "Luis Aragonés (172 goals)",
+      "trophies": {
+        "La Liga": 11,
+        "UEFA Europa League": 3,
+        "Copa del Rey": 10
+      },
+      "current_head_coach": "Diego Simeone",
+      "stadium_capacity": "68,456 (Wanda Metropolitano)",
+      "nickname": "Los Rojiblancos",
+      "famous_legends": ["Fernando Torres", "Antoine Griezmann", "Luis Aragonés"],
+      "rival": "Real Madrid",
+      "founded": 1903,
+      "past_managers": ["Radomir Antić", "Javier Aguirre"]
+    },
+    "Real Betis": {
+      "all_time_top_scorer": "Rubén Castro (147 goals)",
+      "trophies": {
+        "La Liga": 1,
+        "Copa del Rey": 3
+      },
+      "current_head_coach": "Manuel Pellegrini",
+      "stadium_capacity": "60,720 (Benito Villamarín)",
+      "nickname": "Los Verdiblancos",
+      "famous_legends": ["Joaquín", "Denílson", "Rubén Castro"],
+      "rival": "Sevilla FC",
+      "founded": 1907,
+      "past_managers": ["Quique Setién", "Lorenzo Serra Ferrer"]
+    },
+    "Arsenal": {
+      "all_time_top_scorer": "Thierry Henry (228 goals)",
+      "trophies": {
+        "Premier League": 3,
+        "FA Cup": 14,
+        "Community Shield": 16
+      },
+      "current_head_coach": "Mikel Arteta",
+      "stadium_capacity": "60,704 (Emirates Stadium)",
+      "nickname": "The Gunners",
+      "famous_legends": ["Thierry Henry", "Dennis Bergkamp", "Tony Adams"],
+      "rival": "Tottenham Hotspur",
+      "founded": 1886,
+      "past_managers": ["Arsène Wenger", "George Graham"]
+    },
+    "Liverpool": {
+      "all_time_top_scorer": "Ian Rush (346 goals)",
+      "trophies": {
+        "Premier League": 19,
+        "UEFA Champions League": 6,
+        "FA Cup": 8
+      },
+      "current_head_coach": "Jürgen Klopp",
+      "stadium_capacity": "61,276 (Anfield)",
+      "nickname": "The Reds",
+      "famous_legends": ["Steven Gerrard", "Kenny Dalglish", "Ian Rush"],
+      "rival": "Manchester United",
+      "founded": 1892,
+      "past_managers": ["Bob Paisley", "Bill Shankly", "Rafa Benítez"]
+    },
+    "Manchester United": {
+      "all_time_top_scorer": "Wayne Rooney (253 goals)",
+      "trophies": {
+        "Premier League": 20,
+        "UEFA Champions League": 3,
+        "FA Cup": 12
+      },
+      "current_head_coach": "Erik ten Hag",
+      "stadium_capacity": "74,310 (Old Trafford)",
+      "nickname": "The Red Devils",
+      "famous_legends": ["George Best", "Eric Cantona", "Cristiano Ronaldo"],
+      "rival": "Liverpool",
+      "founded": 1878,
+      "past_managers": ["Sir Alex Ferguson", "José Mourinho"]
+    },
+    "Manchester City": {
+      "all_time_top_scorer": "Sergio Agüero (260 goals)",
+      "trophies": {
+        "Premier League": 9,
+        "FA Cup": 6,
+        "EFL Cup": 8,
+        "UEFA Champions League": 1
+      },
+      "current_head_coach": "Pep Guardiola",
+      "stadium_capacity": "53,400 (Etihad Stadium)",
+      "nickname": "The Citizens",
+      "famous_legends": ["Sergio Agüero", "David Silva", "Yaya Touré"],
+      "rival": "Manchester United",
+      "founded": 1880,
+      "past_managers": ["Roberto Mancini", "Manuel Pellegrini"]
+    },
+    "AC Milan": {
+      "all_time_top_scorer": "Gunnar Nordahl (221 goals)",
+      "trophies": {
+        "Serie A": 19,
+        "UEFA Champions League": 7,
+        "Coppa Italia": 5
+      },
+      "current_head_coach": "Stefano Pioli",
+      "stadium_capacity": "75,817 (San Siro)",
+      "nickname": "Rossoneri",
+      "famous_legends": ["Paolo Maldini", "Franco Baresi", "Andriy Shevchenko"],
+      "rival": "Inter Milan",
+      "founded": 1899,
+      "past_managers": ["Carlo Ancelotti", "Arrigo Sacchi"]
+    },
+    "Inter Milan": {
+      "all_time_top_scorer": "Giuseppe Meazza (284 goals)",
+      "trophies": {
+        "Serie A": 20,
+        "UEFA Champions League": 3,
+        "Coppa Italia": 9
+      },
+      "current_head_coach": "Simone Inzaghi",
+      "stadium_capacity": "75,817 (San Siro)",
+      "nickname": "Nerazzurri",
+      "famous_legends": ["Javier Zanetti", "Ronaldo", "Diego Milito"],
+      "rival": "AC Milan",
+      "founded": 1908,
+      "past_managers": ["José Mourinho", "Roberto Mancini"]
+    },
+    "Juventus": {
+      "all_time_top_scorer": "Alessandro Del Piero (290 goals)",
+      "trophies": {
+        "Serie A": 36,
+        "Coppa Italia": 14,
+        "UEFA Champions League": 2
+      },
+      "current_head_coach": "Massimiliano Allegri",
+      "stadium_capacity": "41,507 (Allianz Stadium)",
+      "nickname": "The Old Lady",
+      "famous_legends": ["Del Piero", "Buffon", "Platini"],
+      "rival": "Inter Milan",
+      "founded": 1897,
+      "past_managers": ["Marcello Lippi", "Antonio Conte"]
+    },
+    "Napoli": {
+      "all_time_top_scorer": "Dries Mertens (148 goals)",
+      "trophies": {
+        "Serie A": 3,
+        "Coppa Italia": 6
+      },
+      "current_head_coach": "Francesco Calzona",
+      "stadium_capacity": "54,726 (Diego Armando Maradona Stadium)",
+      "nickname": "Partenopei",
+      "famous_legends": ["Diego Maradona", "Dries Mertens", "Lavezzi"],
+      "rival": "Juventus",
+      "founded": 1926,
+      "past_managers": ["Maurizio Sarri", "Walter Mazzarri"]
+    },
+    "Bayern Munich": {
+      "all_time_top_scorer": "Gerd Müller (566 goals)",
+      "trophies": {
+        "Bundesliga": 33,
+        "UEFA Champions League": 6,
+        "DFB-Pokal": 20
+      },
+      "current_head_coach": "Thomas Tuchel",
+      "stadium_capacity": "75,000 (Allianz Arena)",
+      "nickname": "Die Bayern",
+      "famous_legends": ["Franz Beckenbauer", "Gerd Müller", "Philipp Lahm"],
+      "rival": "Borussia Dortmund",
+      "founded": 1900,
+      "past_managers": ["Jupp Heynckes", "Pep Guardiola"]
+    },
+    "Borussia Dortmund": {
+      "all_time_top_scorer": "Alfred Preissler (177 goals)",
+      "trophies": {
+        "Bundesliga": 8,
+        "DFB-Pokal": 5,
+        "UEFA Champions League": 1
+      },
+      "current_head_coach": "Edin Terzić",
+      "stadium_capacity": "81,365 (Signal Iduna Park)",
+      "nickname": "BVB",
+      "famous_legends": ["Marco Reus", "Michael Zorc", "Robert Lewandowski"],
+      "rival": "Bayern Munich",
+      "founded": 1909,
+      "past_managers": ["Jürgen Klopp", "Ottmar Hitzfeld"]
+    },
+    "Bayer Leverkusen": {
+      "all_time_top_scorer": "Ulf Kirsten (182 goals)",
+      "trophies": {
+        "DFB-Pokal": 1,
+        "UEFA Cup": 1
+      },
+      "current_head_coach": "Xabi Alonso",
+      "stadium_capacity": "30,210 (BayArena)",
+      "nickname": "Die Werkself",
+      "famous_legends": ["Michael Ballack", "Bernd Schneider"],
+      "rival": "Cologne",
+      "founded": 1904,
+      "past_managers": ["Klaus Toppmöller", "Roger Schmidt"]
+    },
+    "RB Leipzig": {
+      "all_time_top_scorer": "Timo Werner (113 goals)",
+      "trophies": {
+        "DFB-Pokal": 2
+      },
+      "current_head_coach": "Marco Rose",
+      "stadium_capacity": "47,069 (Red Bull Arena)",
+      "nickname": "Die Roten Bullen",
+      "famous_legends": ["Timo Werner", "Emil Forsberg"],
+      "rival": "Bayer Leverkusen",
+      "founded": 2009,
+      "past_managers": ["Julian Nagelsmann", "Ralf Rangnick"]
+    }
+  }
+  

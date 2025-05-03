@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>League AI Assistant</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #1e3c72, #2a5298);
+      margin: 0;
+      padding: 20px;
+    }
+    .navbar {
+      background-color: rgba(0,0,0,0.75);
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      margin-left: 15px;
+      font-weight: bold;
+    }
+    .navbar a:hover {
+      text-decoration: underline;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: white;
+    }
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(6px);
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
+    label {
+      display: block;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      font-weight: bold;
+      color: #333;
+    }
+    select, input[type="text"], button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .examples {
+      background-color: #f9f9f9;
+      padding: 15px;
+      border-radius: 8px;
+      font-size: 14px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .response {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      white-space: pre-line;
+      font-family: monospace;
+      margin-top: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <div><strong>Soccer Teams</strong></div>
+    <div>
+      <a href="{% url 'team_list' %}">Home</a>
+      <a href="{% url 'compare_teams' %}">Compare Teams</a>
+      <a href="{% url 'league_ai' %}">League AI</a>
+      <a href="{% url 'trivia_quiz' %}">Trivia Quiz</a>
+    </div>
+  </div>
+
+  <h1>Ask the League AI</h1>
+
+  <div class="container">
+    <label for="league">Select a League:</label>
+    <select id="league">
+      <option value="39">Premier League</option>
+      <option value="140">La Liga</option>
+      <option value="78">Bundesliga</option>
+      <option value="135">Serie A</option>
+      <option value="2">UEFA Champions League</option>
+      <option value="3">UEFA Europa League</option>
+    </select>
+
+    <label for="question">Your Question:</label>
+    <input type="text" id="question" placeholder="e.g. Who is leading the league right now?" />
+
+    <div class="examples">
+      <strong>Example Questions You Can Ask:</strong><br>
+      • Who is leading the league right now?<br>
+      • Which team has scored the most goals?<br>
+      • What team has the best defense?<br>
+      • Which team has the most points?<br>
+      • Who are the top 5 teams currently?<br>
+      • Which club is in last place?<br>
+      • Who has the highest goal difference?<br>
+      • How close is the title race this season?
+    </div>
+
+    <button onclick="submitLeagueQuestion()">Ask AI</button>
+
+    <div id="response" class="response" style="display: none;"></div>
+  </div>
+
+  <script>
+    function submitLeagueQuestion() {
+      const leagueId = document.getElementById("league").value;
+      const question = document.getElementById("question").value;
+      const responseBox = document.getElementById("response");
+
+      responseBox.style.display = "block";
+      responseBox.innerText = "Thinking...";
+
+      fetch("{% url 'ask_league_ai' %}", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": "{{ csrf_token }}"
+        },
+        body: JSON.stringify({
+          question: question,
+          league_id: leagueId
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        responseBox.innerText = "AI Response:\n\n" + data.response;
+      })
+      .catch(() => {
+        responseBox.innerText = "There was an error getting the AI response.";
+      });
+    }
+  </script>
+
+</body>
+</html>

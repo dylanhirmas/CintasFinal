@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Compare Teams</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #1e3c72, #2a5298);
+      margin: 0;
+      padding: 0;
+    }
+    .navbar {
+      background-color: rgba(0,0,0,0.75);
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      margin-left: 15px;
+      font-weight: bold;
+    }
+    .navbar a:hover {
+      text-decoration: underline;
+    }
+    .container {
+      max-width: 900px;
+      margin: 60px auto;
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(6px);
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    select, input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 25px;
+      background-color: #4CAF50;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .examples {
+      margin-top: 20px;
+      background-color: #f9f9f9;
+      padding: 15px;
+      border-radius: 8px;
+      font-size: 14px;
+      color: #333;
+    }
+    .response-box {
+      margin-top: 30px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      font-family: monospace;
+      white-space: pre-line;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    .back-link {
+      margin-top: 30px;
+      display: block;
+      text-align: center;
+      color: #333;
+      text-decoration: none;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <div><strong>Soccer Teams</strong></div>
+    <div>
+      <a href="{% url 'team_list' %}">Home</a>
+      <a href="{% url 'compare_teams' %}">Compare Teams</a>
+      <a href="{% url 'league_ai' %}">League AI</a>
+      <a href="{% url 'trivia_quiz' %}">Trivia Quiz</a>
+    </div>
+  </div>
+
+  <div class="container">
+    <h1>Compare Two Football Teams</h1>
+
+    <label for="team1">Select First Team:</label>
+    <select id="team1">
+      {% for team in teams %}
+        <option value="{{ team.id }}">{{ team.name }}</option>
+      {% endfor %}
+    </select>
+
+    <label for="team2">Select Second Team:</label>
+    <select id="team2">
+      {% for team in teams %}
+        <option value="{{ team.id }}">{{ team.name }}</option>
+      {% endfor %}
+    </select>
+
+    <label for="question">Your Comparison Question:</label>
+    <input type="text" id="question" placeholder="e.g. Which team has a bigger rivalry?" />
+
+    <div class="examples">
+      <strong>Example Questions You Can Ask:</strong><br>
+      • Who has won more titles?<br>
+      • Which team has a more famous player?<br>
+      • Which club has the better nickname?<br>
+      • Which team has the more expensive signing?<br>
+      • Which city are they from?<br>
+      • Who has more league titles?<br>
+      • Which team has better history overall?<br>
+      • Which team had greater legends?
+    </div>
+
+    <button onclick="submitComparison()">Compare</button>
+
+    <div id="response" class="response-box" style="display: none;"></div>
+
+    <a href="{% url 'team_list' %}" class="back-link">← Back to Team List</a>
+  </div>
+
+  <script>
+    function submitComparison() {
+      const team1Id = document.getElementById('team1').value;
+      const team2Id = document.getElementById('team2').value;
+      const question = document.getElementById('question').value;
+      const responseBox = document.getElementById('response');
+
+      responseBox.style.display = 'block';
+      responseBox.innerText = 'Thinking...';
+
+      fetch("{% url 'ask_compare_ai' %}", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": "{{ csrf_token }}"
+        },
+        body: JSON.stringify({
+          question: question,
+          team1_id: team1Id,
+          team2_id: team2Id
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        responseBox.innerText = "AI Response:\n\n" + data.response;
+      })
+      .catch(() => {
+        responseBox.innerText = "There was an error getting the AI response.";
+      });
+    }
+  </script>
+
+</body>
+</html>

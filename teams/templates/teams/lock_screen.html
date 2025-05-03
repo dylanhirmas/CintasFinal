@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Unlock Soccer Teams</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+    }
+    .lock-container {
+      text-align: center;
+    }
+    input[type="password"] {
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+      width: 250px;
+      border-radius: 4px;
+      border: none;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      background: #1e90ff;
+      color: #fff;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #1c86ee;
+    }
+    .error {
+      color: #ff6b6b;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="lock-container">
+    <h2>Enter Password to Continue</h2>
+    <form method="post">
+      {% csrf_token %}
+      <input type="password" name="password" placeholder="Password" autofocus />
+      <br/>
+      <button type="submit">Unlock</button>
+      {% if error %}
+        <div class="error">{{ error }}</div>
+      {% endif %}
+    </form>
+  </div>
+</body>
+</html>

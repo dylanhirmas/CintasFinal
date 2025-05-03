@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{{ team.name }} - Team Details</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url('{{ team.background_image_url }}');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+    }
+    .scroll-container {
+      display: flex;
+      flex-direction: row;
+      overflow-x: auto;
+      height: 100vh;
+      scroll-snap-type: x mandatory;
+      padding: 20px 0;
+    }
+    .slide {
+      flex: 0 0 80vw;
+      scroll-snap-align: start;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    .content {
+      background-color: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(6px);
+      padding: 20px;
+      border-radius: 10px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    }
+    .team-header {
+      text-align: center;
+    }
+    .team-header img {
+      max-width: 300px;
+      margin: 20px 0;
+    }
+    .team-info p {
+      font-size: 18px;
+      margin: 5px 0;
+      font-weight: bold;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ccc;
+      font-weight: bold;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    a {
+      text-decoration: none;
+      color: #007BFF;
+      font-weight: bold;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .scroll-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0,0,0,0.5);
+      color: white;
+      border: none;
+      padding: 15px;
+      cursor: pointer;
+      border-radius: 50%;
+      z-index: 10;
+    }
+    .scroll-btn-left { left: 10px; }
+    .scroll-btn-right { right: 10px; }
+    .back-home {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background-color: yellow;
+      color: black;
+      font-weight: bold;
+      padding: 10px 15px;
+      border-radius: 8px;
+      text-decoration: none;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+    .ask-ai {
+      margin-top: 20px;
+      padding: 10px;
+      background: #eef;
+      border-radius: 8px;
+    }
+    .example-questions {
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    .example-questions ul {
+      padding-left: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<a href="{% url 'team_list' %}" class="back-home">← Back to Homepage</a>
+
+<div class="scroll-container">
+
+  <!-- Team Info + Ask AI -->
+  <section class="slide">
+    <div class="content">
+      <div class="team-header">
+        <h1>{{ team.name }}</h1>
+        {% if team.logo %}
+          <img src="{{ team.logo.url }}" alt="{{ team.name }} logo" class="team-header-logo" loading="lazy" />
+        {% endif %}
+      </div>
+      <div class="team-info">
+        <p><strong>Country:</strong> {{ team.country }}</p>
+        <p><strong>Founded:</strong> {{ team.founded_year }}</p>
+        <p><strong>Stadium:</strong> {{ team.stadium_name }}</p>
+        <p><strong>Description:</strong> {{ team.description }}</p>
+      </div>
+
+      <!-- Ask AI -->
+      <div class="ask-ai">
+        <h3>Ask AI About {{ team.name }}</h3>
+        <input type="text" id="question" placeholder="Ask anything about the team..." style="width: 100%; padding: 10px; margin-bottom: 10px;" />
+        <button onclick="askQuestion()" style="padding: 10px 20px;">Ask AI</button>
+        <div id="ai-response" style="margin-top: 20px; font-weight: bold;"></div>
+
+        <div class="example-questions">
+          Example Questions:
+          <ul>
+            <li>Who is the head coach?</li>
+            <li>What is their nickname?</li>
+            <li>How many trophies have they won?</li>
+            <li>Who is their greatest player?</li>
+            <li>Who is their biggest rival?</li>
+            <li>What is their most expensive signing?</li>
+            <li>Where is the club based?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Performance Chart -->
+  <section class="slide">
+    <div class="content">
+      <h2>Team Performance (Goals Scored)</h2>
+      <canvas id="performanceChart" height="150"></canvas>
+      <script>
+        const labels = [
+          {% for match in fixtures.last %}
+            "{{ match.teams.home.name }} vs {{ match.teams.away.name }}",
+          {% endfor %}
+        ];
+        const data = {
+          labels: labels,
+          datasets: [{
+            label: "Goals by {{ team.name }}",
+            data: [
+              {% for match in fixtures.last %}
+                {% if match.teams.home.id == team.api_football_id %}
+                  {{ match.goals.home }},
+                {% else %}
+                  {{ match.goals.away }},
+                {% endif %}
+              {% endfor %}
+            ],
+            backgroundColor: 'rgba(75, 192, 192, 0.7)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+          }]
+        };
+        const config = {
+          type: 'bar',
+          data: data,
+          options: {
+            scales: {
+              y: { beginAtZero: true, ticks: { font: { weight: 'bold' } } },
+              x: { ticks: { font: { weight: 'bold' } } }
+            }
+          }
+        };
+        new Chart(document.getElementById('performanceChart'), config);
+      </script>
+    </div>
+  </section>
+
+  <!-- Recent Matches -->
+  <section class="slide">
+    <div class="content">
+      <h2>Recent Matches</h2>
+      {% if fixtures.last %}
+        <ul>
+          {% for match in fixtures.last %}
+            <li>
+              {{ match.teams.home.name }} {{ match.goals.home }} - {{ match.goals.away }} {{ match.teams.away.name }}
+              <small>{{ match.fixture.date|date:"M d, Y H:i" }}</small>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No recent matches found.</p>
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- Upcoming Matches -->
+  <section class="slide">
+    <div class="content">
+      <h2>Upcoming Matches</h2>
+      {% if fixtures.next %}
+        <ul>
+          {% for match in fixtures.next %}
+            <li>
+              {{ match.teams.home.name }} vs {{ match.teams.away.name }}
+              <small>{{ match.fixture.date|date:"M d, Y H:i" }}</small>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No upcoming matches found.</p>
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- Top Scorers -->
+  <section class="slide">
+    <div class="content">
+      <h2>Top Scorers In League</h2>
+      {% if top_scorers %}
+        <table>
+          <thead>
+            <tr>
+              <th>Player</th>
+              <th>Goals</th>
+              <th>Nationality</th>
+              <th>Team</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for scorer in top_scorers %}
+              <tr>
+                <td>{{ scorer.player.name }}</td>
+                <td>{{ scorer.goals }}</td>
+                <td>{{ scorer.player.nationality }}</td>
+                <td>{{ scorer.team.name }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p>No top scorers data available.</p>
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- Team Squad -->
+  {% if squad %}
+  <section class="slide">
+    <div class="content">
+      <h2>Team Squad</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Age</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for player in squad %}
+          <tr>
+            <td>
+              <a href="{% url 'player_detail' player_id=player.id team_id=team.id %}">
+                {{ player.name }}
+              </a>
+            </td>
+            <td>{{ player.age }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- League Standings -->
+  <section class="slide">
+    <div class="content">
+      <h2>League Standings</h2>
+      {% if standings %}
+      <table>
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Team</th>
+            <th>Points</th>
+            <th>Goal Diff</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in standings %}
+          <tr {% if row.team.id == team.api_football_id %}style="background-color: #e1f5fe;"{% endif %}>
+            <td>{{ row.rank }}</td>
+            <td>
+              {% if row.team.logo %}
+                <img src="{{ row.team.logo }}" alt="{{ row.team.name }} logo" style="height: 20px; vertical-align: middle; margin-right: 6px;" loading="lazy">
+              {% endif %}
+              {{ row.team.name }}
+            </td>
+            <td>{{ row.points }}</td>
+            <td>{{ row.goalsDiff }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+        <p>Standings data not available.</p>
+      {% endif %}
+    </div>
+  </section>
+
+</div>
+
+<!-- Scroll buttons -->
+<button class="scroll-btn scroll-btn-left" onclick="document.querySelector('.scroll-container').scrollLeft -= 800">←</button>
+<button class="scroll-btn scroll-btn-right" onclick="document.querySelector('.scroll-container').scrollLeft += 800">→</button>
+
+<!-- Ask AI Script -->
+<script>
+function askQuestion() {
+  const question = document.getElementById('question').value;
+  const responseBox = document.getElementById('ai-response');
+  responseBox.innerText = 'Thinking...';
+
+  fetch("{% url 'ask_ai' %}", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": "{{ csrf_token }}"
+    },
+    body: JSON.stringify({
+      question: question,
+      team_id: {{ team.id }}
+    })
+  })
+  .then(response => response.json())
+  .then(data => { responseBox.innerText = data.response; })
+  .catch(() => { responseBox.innerText = "There was an error getting the AI response."; });
+}
+</script>
+
+</body>
+</html>

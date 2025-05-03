@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Content Generation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .ai-form {
+            margin-bottom: 20px;
+        }
+        .ai-form input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .ai-form button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .ai-form button:hover {
+            background-color: #45a049;
+        }
+        .ai-response {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007BFF;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Generate AI Content</h1>
+
+        <div class="ai-form">
+            <form method="post">
+                {% csrf_token %}
+                <input type="text" name="question" placeholder="Ask a question..." required>
+                <button type="submit">Ask AI</button>
+            </form>
+        </div>
+
+        {% if ai_response %}
+            <div class="ai-response">
+                <h3>AI Response:</h3>
+                <p>{{ ai_response }}</p>
+            </div>
+        {% endif %}
+
+        <a href="{% url 'team_list' %}">← Back to Team List</a>
+    </div>
+
+</body>
+</html>
